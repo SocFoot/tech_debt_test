@@ -24,7 +24,7 @@ class LogParser
       .sort_by { |key, value| -value }
       .each { |key, value| print "#{key}:#{value}" }
     puts "\n"
-    puts "unique paths"
+    puts 'unique paths'
     unique
       .sort_by { |key, value| -value }
       .each { |key, value| print "#{key}:#{value}" }
