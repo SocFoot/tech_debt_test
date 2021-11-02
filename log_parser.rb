@@ -10,10 +10,10 @@ class LogParser
   def call
     content = File.read(file_path)
     content.split("\n").each do |line|
-      path, ip = line.split(' ')
+      path_and_ip = line.split(' ')
 
-      visited[path] << ip
-      unique[path] << ip
+      visited[path_and_ip.first] << path_and_ip.last
+      unique[path_and_ip.first] << path_and_ip.last
     end
 
     visited.transform_values! { |value| value.size }
