@@ -3,7 +3,7 @@
 class LogParser
   def initialize(file_path)
     @file_path = file_path
-    @visited = Hash.new { |hash, key| hash[key] = []  }
+    @visited = {}
     @unique = Hash.new { |hash, key| hash[key] = Set.new  }
   end
 
@@ -12,7 +12,9 @@ class LogParser
     content.split("\n").each do |line|
       path_and_ip = line.split(' ')
 
+      visited[path_and_ip.first] = [] unless visited.has_key?(path_and_ip.first)
       visited[path_and_ip.first] << path_and_ip.last
+      
       unique[path_and_ip.first] << path_and_ip.last
     end
 
