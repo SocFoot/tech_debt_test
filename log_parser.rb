@@ -18,8 +18,8 @@ class LogParser
       unique[path_and_ip.first] << path_and_ip.last
     end
 
-    visited.transform_values! { |value| value.size }
-    unique.transform_values! {  |value| value.size }
+    visited.each { |k1, v1| visited[k1] = v1.size }
+    unique.each { |k2, v2| unique[k2] = v2.size }
 
     puts "visited paths"
     visited
