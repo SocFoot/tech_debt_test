@@ -10,13 +10,13 @@ RSpec.describe LogParser do
   let(:path) { './webserver.log' }
   it 'prints number of visited paths' do
     expect { subject }.to output(
-      /\/about\/2:90\/contact:89\/index:82\/about:81\/help_page\/1:80\/home:78/
+      %r{/about/2:90/contact:89/index:82/about:81/help_page/1:80/home:78}
     ).to_stdout
   end
 
   it 'prints number of unique paths' do
     expect { subject }.to output(
-      /\/help_page\/1:23\/contact:23\/home:23\/index:23\/about\/2:22\/about:21/
+      %r{/help_page/1:23/contact:23/home:23/index:23/about/2:22/about:21}
     ).to_stdout
   end
 end

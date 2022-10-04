@@ -1,36 +1,29 @@
 # frozen_string_literal: true
 
+require_relative 'log_processor'
+require_relative 'log_printer'
+
+# This class implement the feature required parsing a log file and print and sorted results.
 class LogParser
   def initialize(file_path)
     @file_path = file_path
-    @visited = {}
-    @unique = Hash.new { |hash, key| hash[key] = Set.new  }
   end
 
   def call
-    content = File.read(file_path)
-    content.split("\n").each do |line|
-      path_and_ip = line.split(' ')
+    @processor = LogProcessor.new(file_path)
+    processor.parse
 
-      visited[path_and_ip.first] = [] unless visited.has_key?(path_and_ip.first)
-      visited[path_and_ip.first] << path_and_ip.last
-      
-      unique[path_and_ip.first] << path_and_ip.last
-    end
-
-    visited.each { |k1, v1| visited[k1] = v1.size }
-    unique.each { |k2, v2| unique[k2] = v2.size }
-
-    puts "visited paths"
-    visited
-      .sort_by { |key, value| -value }
-      .each { |key, value| print "#{key}:#{value}" }
-    puts "\n"
-    puts 'unique paths'
-    unique
-      .sort_by { |key, value| -value }
-      .each { |key, value| print "#{key}:#{value}" }
+    print_result('visited paths')
+    print_result("\nunique paths")
   end
 
-  attr_reader :file_path, :visited, :unique 
+  private
+
+  def print_result(message)
+    printer = LogPrinter.new(message)
+    printer.input = processor.results.pop
+    printer.print_formated_results
+  end
+
+  attr_accessor :file_path, :processor
 end
